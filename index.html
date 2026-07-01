@@ -593,7 +593,7 @@ body {
   <!-- Setup -->
   <div class="setup" id="setup">
     <img class="team-logo"
-         src="https://www.dropbox.com/scl/fi/1wfu03kmls8r56tun0x9o/logo.jpg?rlkey=ofg87ksykuq84osyvgxpv6laf&raw=1"
+         src="https://dl.dropboxusercontent.com/scl/fi/1wfu03kmls8r56tun0x9o/logo.jpg?rlkey=ofg87ksykuq84osyvgxpv6laf"
          alt="Team logo"
          onerror="this.style.display='none'">
     <h1>HIIT Timer</h1>
@@ -1282,6 +1282,43 @@ document.addEventListener('keydown', e => {
 
 loadYouTubeAPI();
 render();
+
+// Runtime-process the team logo JPG: knock out white background, force the logo white.
+// Produces a real transparent PNG so we don't rely on fragile mix-blend-mode across browsers.
+(function processTeamLogo() {
+  const target = document.querySelector('.team-logo');
+  if (!target) return;
+  const src = target.getAttribute('src');
+  if (!src) return;
+  const loader = new Image();
+  loader.crossOrigin = 'anonymous';
+  loader.onload = () => {
+    try {
+      const canvas = document.createElement('canvas');
+      canvas.width = loader.naturalWidth;
+      canvas.height = loader.naturalHeight;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(loader, 0, 0);
+      const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const data = imgData.data;
+      for (let i = 0; i < data.length; i += 4) {
+        const brightness = (data[i] + data[i+1] + data[i+2]) / 3;
+        data[i] = 255;
+        data[i+1] = 255;
+        data[i+2] = 255;
+        data[i+3] = Math.max(0, Math.min(255, 255 - brightness));
+      }
+      ctx.putImageData(imgData, 0, 0);
+      target.style.filter = 'none';
+      target.style.mixBlendMode = 'normal';
+      target.src = canvas.toDataURL('image/png');
+    } catch (err) {
+      console.warn('Logo canvas processing failed (CORS?)', err);
+    }
+  };
+  loader.onerror = () => console.warn('Logo CORS load failed');
+  loader.src = src;
+})();
 </script>
 </body>
 </html>
