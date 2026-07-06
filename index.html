@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#0a0a1a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="HIIT Timer">
 <title>HIIT Timer</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -917,6 +921,15 @@ body {
       </span>
       Play on Apple TV / HomePod (AirPlay)
     </button>
+    <button type="button" class="airplay-link" id="phoneTipsBtn" title="How to use this app and get ad-free music on your phone">
+      <span class="airplay-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="7" y="2" width="10" height="20" rx="2"/>
+          <line x1="11" y1="18" x2="13" y2="18"/>
+        </svg>
+      </span>
+      On your phone? Get ad-free music &amp; install as an app
+    </button>
   </div>
 
   <!-- AirPlay how-to modal -->
@@ -951,6 +964,41 @@ body {
       </div>
 
       <p class="modal-note">Screen Mirroring routes the whole browser tab's audio &mdash; that includes YouTube. Direct AirPlay from just the video isn't possible from a web page (browser limitation, not the app).</p>
+    </div>
+  </div>
+
+  <!-- Phone tips modal -->
+  <div class="modal-backdrop" id="phoneModal">
+    <div class="modal">
+      <button class="modal-close" id="phoneClose" aria-label="Close">&times;</button>
+      <h2>Using this on your phone</h2>
+      <p class="modal-sub">How to install it like an app and get ad-free music.</p>
+
+      <div class="modal-step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Install as an app</div>
+          <div class="step-detail"><b>iPhone (Safari):</b> tap <b>Share</b> &rarr; <b>Add to Home Screen</b>. <b>Android (Chrome):</b> menu &rarr; <b>Install app</b>. It opens fullscreen with its own icon.</div>
+        </div>
+      </div>
+
+      <div class="modal-step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Ad-free music (if you have Premium)</div>
+          <div class="step-detail">The in-app players show ads/previews on phones &mdash; mobile browsers block your Premium login inside embeds. For truly ad-free: open your playlist in the <b>YouTube</b> or <b>Spotify</b> app, press play, then switch back here. Native apps keep playing in the background and the beeps layer on top.</div>
+        </div>
+      </div>
+
+      <div class="modal-step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Keep the timer on screen</div>
+          <div class="step-detail">Phones pause background web pages, so keep this timer in the foreground during your workout (the screen stays on automatically). Your music app keeps playing behind it.</div>
+        </div>
+      </div>
+
+      <p class="modal-note">No Premium? Use the <b>YouTube</b> tab's <b>Sample Mix</b> &mdash; clean, non-explicit NCS tracks that play free inside the app with barely any ads and no login.</p>
     </div>
   </div>
 
@@ -1681,6 +1729,15 @@ $('airplayClose').addEventListener('click', () => {
 $('airplayModal').addEventListener('click', (e) => {
   if (e.target === $('airplayModal')) $('airplayModal').classList.remove('active');
 });
+$('phoneTipsBtn').addEventListener('click', () => {
+  $('phoneModal').classList.add('active');
+});
+$('phoneClose').addEventListener('click', () => {
+  $('phoneModal').classList.remove('active');
+});
+$('phoneModal').addEventListener('click', (e) => {
+  if (e.target === $('phoneModal')) $('phoneModal').classList.remove('active');
+});
 function flashSampleBtn(btn, label, resetText) {
   btn.innerHTML = label;
   btn.classList.add('flash');
@@ -1806,6 +1863,55 @@ render();
   };
   loader.onerror = () => console.warn('Logo CORS load failed');
   loader.src = src;
+})();
+
+// ---------- Installable web app (PWA): generate icons + manifest at runtime ----------
+(function setupPWA() {
+  function makeIcon(size) {
+    const c = document.createElement('canvas');
+    c.width = c.height = size;
+    const ctx = c.getContext('2d');
+    const g = ctx.createLinearGradient(0, 0, size, size);
+    g.addColorStop(0, '#22d3a1');
+    g.addColorStop(1, '#0891b2');
+    ctx.fillStyle = g;
+    if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(0, 0, size, size, size * 0.22); ctx.fill(); }
+    else { ctx.fillRect(0, 0, size, size); }
+    const cx = size / 2, cy = size / 2, r = size * 0.28;
+    ctx.lineWidth = size * 0.085;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = 'rgba(255,255,255,0.35)';
+    ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.stroke();
+    ctx.strokeStyle = '#ffffff';
+    ctx.beginPath(); ctx.arc(cx, cy, r, -Math.PI / 2, Math.PI * 0.85); ctx.stroke();
+    // stem + button (stopwatch look)
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(cx - size * 0.05, cy - r - size * 0.12, size * 0.10, size * 0.07);
+    return c.toDataURL('image/png');
+  }
+  try {
+    const icon180 = makeIcon(180), icon192 = makeIcon(192), icon512 = makeIcon(512);
+    const setLink = (rel, href, extra) => {
+      let l = document.querySelector('link[rel="' + rel + '"]');
+      if (!l) { l = document.createElement('link'); l.rel = rel; document.head.appendChild(l); }
+      l.href = href;
+      if (extra) Object.keys(extra).forEach(k => l.setAttribute(k, extra[k]));
+    };
+    setLink('apple-touch-icon', icon180);
+    setLink('icon', icon192, { type: 'image/png', sizes: '192x192' });
+    const manifest = {
+      name: 'HIIT Timer', short_name: 'HIIT',
+      description: 'Interval workout timer with music, beeps, and a prep countdown.',
+      start_url: '.', scope: '.', display: 'standalone',
+      background_color: '#0a0a1a', theme_color: '#0a0a1a', orientation: 'portrait',
+      icons: [
+        { src: icon192, sizes: '192x192', type: 'image/png', purpose: 'any maskable' },
+        { src: icon512, sizes: '512x512', type: 'image/png', purpose: 'any maskable' }
+      ]
+    };
+    const blob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
+    setLink('manifest', URL.createObjectURL(blob));
+  } catch (e) { console.warn('PWA setup failed', e); }
 })();
 </script>
 </body>
