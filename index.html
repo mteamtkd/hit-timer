@@ -301,6 +301,81 @@ body {
 .music-status a:hover { color: #22d3a1; }
 .youtube-wrap.hidden { display: none; }
 
+/* Music source tabs */
+.music-section { margin-bottom: 20px; }
+.music-section-label {
+  display: block;
+  font-size: 11px;
+  color: var(--dim);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+.source-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 14px;
+  background: rgba(0,0,0,0.3);
+  padding: 4px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.source-tab {
+  flex: 1;
+  padding: 9px 6px;
+  border: none;
+  background: transparent;
+  color: var(--dim);
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+.source-tab:hover { color: var(--text); }
+.source-tab.active { color: #fff; }
+.source-tab[data-source="youtube"].active { background: #ff0033; }
+.source-tab[data-source="spotify"].active { background: #1db954; color: #00160a; }
+.source-tab[data-source="apple"].active { background: linear-gradient(90deg, #fa2f56, #fb5c74); }
+.source-panel { display: none; }
+.source-panel.active { display: block; }
+
+.embed-wrap {
+  width: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: #000;
+}
+.embed-wrap.hidden { display: none; }
+.embed-wrap iframe { display: block; width: 100%; border: 0; }
+
+.premium-toggle {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-top: 10px;
+  padding: 10px 12px;
+  background: rgba(255,0,51,0.06);
+  border: 1px solid rgba(255,0,51,0.25);
+  border-radius: 10px;
+  font-size: 12px;
+  color: var(--dim);
+  line-height: 1.5;
+  cursor: pointer;
+}
+.premium-toggle input {
+  margin-top: 2px;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  accent-color: #ff0033;
+  cursor: pointer;
+}
+.premium-toggle b { color: var(--text); }
+
 .yt-preload {
   display: none;
   margin-bottom: 20px;
@@ -379,6 +454,141 @@ body {
   color: #fff;
   box-shadow: 0 10px 30px rgba(239,68,68,0.35);
 }
+
+.airplay-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  margin-top: 12px;
+  padding: 12px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  color: var(--dim);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+.airplay-link:hover {
+  color: var(--text);
+  border-color: rgba(56,189,248,0.5);
+  background: rgba(56,189,248,0.08);
+}
+.airplay-icon svg { width: 18px; height: 18px; display: block; }
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 20px;
+  animation: fadeIn 0.2s ease;
+}
+.modal-backdrop.active { display: flex; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.modal {
+  background: #111827;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px;
+  max-width: 480px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+}
+.modal h2 {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 4px;
+  background: linear-gradient(90deg, #22d3a1, #38bdf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.modal-sub {
+  color: var(--dim);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+.modal-step {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 16px;
+  padding: 14px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.step-num {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #22d3a1, #38bdf8);
+  color: #001a10;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+.step-title {
+  font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 4px;
+  color: var(--text);
+}
+.step-detail {
+  font-size: 13px;
+  color: var(--dim);
+  line-height: 1.5;
+}
+.step-detail b { color: var(--text); }
+.step-detail kbd {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 11px;
+  font-family: -apple-system, monospace;
+}
+.modal-note {
+  font-size: 12px;
+  color: var(--dim);
+  font-style: italic;
+  margin-top: 12px;
+  line-height: 1.5;
+}
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  color: var(--dim);
+  font-size: 28px;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: all 0.15s;
+}
+.modal-close:hover { color: var(--text); background: rgba(255,255,255,0.08); }
 
 /* ------ Timer screen ------ */
 .timer-screen {
@@ -626,26 +836,110 @@ body {
       <div class="chip" data-preset="30,30,10">Even 30/30</div>
     </div>
 
-    <div class="music-row">
-      <label>YouTube URL or playlist (optional)</label>
-      <div class="music-input-wrap">
-        <input type="text" id="ytInput" placeholder="Paste a YouTube playlist URL, or a single video (will loop)">
-        <button type="button" class="sample-btn" id="sampleBtn" title="Load a YouTube Mix seeded from an NCS track">Sample Mix</button>
+    <div class="music-section">
+      <label class="music-section-label">Workout music (optional)</label>
+      <div class="source-tabs">
+        <button type="button" class="source-tab active" data-source="youtube">YouTube</button>
+        <button type="button" class="source-tab" data-source="spotify">Spotify</button>
+        <button type="button" class="source-tab" data-source="apple">Apple Music</button>
       </div>
-      <div class="music-help">
-        <a href="https://www.youtube.com/results?search_query=NCS+1+hour+gaming+mix" target="_blank" rel="noopener">
-          Browse embeddable EDM mixes &rarr;
-        </a>
-        <span> Playlists auto-advance, single videos loop. <b>Sample Mix</b> loads an endless NCS-seeded mix.</span>
-      </div>
-    </div>
 
-    <div class="yt-preload" id="ytPreloadArea">
-      <div class="yt-preload-hint">Preview (muted) &mdash; ad plays here silently; hit <b>Skip Ad</b> when it appears, then Start.</div>
-      <div class="yt-preload-frame"><div id="yt-preload-target"></div></div>
+      <!-- YouTube panel -->
+      <div class="source-panel active" data-panel="youtube">
+        <div class="music-input-wrap">
+          <input type="text" id="ytInput" placeholder="Paste a YouTube playlist URL, or a single video (will loop)">
+          <button type="button" class="sample-btn" id="sampleBtn" title="Load a YouTube Mix seeded from an NCS track">Sample Mix</button>
+        </div>
+        <div class="music-help">
+          <a href="https://www.youtube.com/results?search_query=NCS+1+hour+gaming+mix" target="_blank" rel="noopener">
+            Browse embeddable EDM mixes &rarr;
+          </a>
+          <span> <b>Sample Mix</b> loops clean, non-explicit NCS tracks. For your own links, turn on YouTube <b>Restricted Mode</b> to filter explicit content. Full free playback &amp; syncs with the timer.</span>
+        </div>
+        <label class="premium-toggle">
+          <input type="checkbox" id="ytPremium">
+          <span>I have <b>YouTube Premium</b> &mdash; play through my signed-in account to skip ads. Uses your YouTube login (may show a cookie error on some browsers &mdash; if so, use the <b>Open on YouTube</b> link).</span>
+        </label>
+        <div class="yt-preload" id="ytPreloadArea">
+          <div class="yt-preload-hint">Preview (muted) &mdash; ad plays here silently; hit <b>Skip Ad</b> when it appears, then Start.</div>
+          <div class="yt-preload-frame"><div id="yt-preload-target"></div></div>
+        </div>
+      </div>
+
+      <!-- Spotify panel -->
+      <div class="source-panel" data-panel="spotify">
+        <div class="music-input-wrap">
+          <input type="text" id="spotifyInput" placeholder="Paste a Spotify playlist, album, or track URL">
+          <button type="button" class="sample-btn" id="spotifySampleBtn" title="Load a Spotify workout playlist">Sample</button>
+        </div>
+        <div class="music-help">
+          <a href="https://open.spotify.com/search/edm%20workout/playlists" target="_blank" rel="noopener">
+            Browse Spotify EDM workout playlists &rarr;
+          </a>
+          <span> Samples are EDM/dance (non-explicit-leaning). For a hard guarantee, turn off <b>Explicit content</b> in Spotify settings. Play/pause syncs with the timer. Full songs need Premium logged in &mdash; otherwise 30-sec previews.</span>
+        </div>
+      </div>
+
+      <!-- Apple Music panel -->
+      <div class="source-panel" data-panel="apple">
+        <div class="music-input-wrap">
+          <input type="text" id="appleInput" placeholder="Paste an Apple Music playlist or album URL">
+          <button type="button" class="sample-btn" id="appleSampleBtn" title="Load an Apple Music workout playlist">Sample</button>
+        </div>
+        <div class="music-help">
+          <a href="https://music.apple.com/us/browse" target="_blank" rel="noopener">
+            Browse Apple Music &rarr;
+          </a>
+          <span> Press play in the player to start. Enable <b>Content Restrictions &rarr; Clean</b> in Apple Music settings to block explicit songs. Timer can't auto-pause Apple Music (Apple web limitation); full songs need a subscription.</span>
+        </div>
+      </div>
     </div>
 
     <button class="btn" id="startBtn">Start Workout</button>
+    <button type="button" class="airplay-link" id="airplayBtn" title="Send audio to Apple TV / HomePod / AirPlay speakers">
+      <span class="airplay-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8.28 19h7.44L12 15z"/>
+          <path d="M18 16h1a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h1"/>
+        </svg>
+      </span>
+      Play on Apple TV / HomePod (AirPlay)
+    </button>
+  </div>
+
+  <!-- AirPlay how-to modal -->
+  <div class="modal-backdrop" id="airplayModal">
+    <div class="modal">
+      <button class="modal-close" id="airplayClose" aria-label="Close">&times;</button>
+      <h2>Play on AirPlay</h2>
+      <p class="modal-sub">Route the music &amp; beeps to Apple TV, HomePod, or any AirPlay speaker.</p>
+
+      <div class="modal-step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">iPhone / iPad</div>
+          <div class="step-detail">Swipe down from the top-right for <b>Control Center</b> &rarr; tap <b>Screen Mirroring</b> &rarr; pick your Apple TV / HomePod. Audio follows the mirror.</div>
+        </div>
+      </div>
+
+      <div class="modal-step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Mac (Safari)</div>
+          <div class="step-detail">Click the <b>AirPlay icon</b> in the menu bar (top of screen) &rarr; pick your device. Or hold <kbd>Option</kbd> and click the volume icon.</div>
+        </div>
+      </div>
+
+      <div class="modal-step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Start the workout</div>
+          <div class="step-detail">Come back here, hit <b>Start Workout</b>. Music and 5-4-3-2-1 beeps stream to the AirPlay device.</div>
+        </div>
+      </div>
+
+      <p class="modal-note">Screen Mirroring routes the whole browser tab's audio &mdash; that includes YouTube. Direct AirPlay from just the video isn't possible from a web page (browser limitation, not the app).</p>
+    </div>
   </div>
 
   <!-- Timer -->
@@ -675,6 +969,8 @@ body {
       <a href="https://www.youtube.com/results?search_query=edm+workout+mix+1+hour" target="_blank" rel="noopener" id="musicBrowseLink">Browse mixes &rarr;</a>
     </div>
     <div class="youtube-wrap hidden" id="ytWrap"><div id="yt-player"></div></div>
+    <div class="embed-wrap hidden" id="spotifyWrap"><div id="spotify-embed"></div></div>
+    <div class="embed-wrap hidden" id="appleWrap"></div>
 
     <div class="controls">
       <button class="btn secondary" id="pauseBtn">Pause</button>
@@ -733,6 +1029,8 @@ const beepDone = () => {
 let ytPlayer = null;
 let ytReady = false;
 let pendingYtConfig = null;
+let ytUsePremium = false;
+function ytHost() { return ytUsePremium ? 'https://www.youtube.com' : 'https://www.youtube-nocookie.com'; }
 function loadYouTubeAPI() {
   if (window.YT) { ytReady = true; return; }
   const s = document.createElement('script');
@@ -749,6 +1047,11 @@ function parseYouTube(url) {
   const u = url.trim();
   try {
     const parsed = new URL(u.startsWith('http') ? u : 'https://' + u);
+    const vids = parsed.searchParams.get('video_ids');
+    if (vids) {
+      const arr = vids.split(',').map(s => s.trim()).filter(Boolean);
+      if (arr.length) return {videoIds: arr};
+    }
     const list = parsed.searchParams.get('list');
     if (list) return {list, listType: 'playlist'};
     const v = parsed.searchParams.get('v');
@@ -774,13 +1077,16 @@ function setMusicStatus(kind, text, showOpenLink) {
   document.getElementById('musicStatusText').innerHTML = text;
   const openLink = document.getElementById('musicOpenLink');
   const browseLink = document.getElementById('musicBrowseLink');
-  if (showOpenLink && currentYtUrl) {
+  if (musicSource === 'youtube' && showOpenLink && currentYtUrl) {
     openLink.href = currentYtUrl;
     openLink.style.display = 'inline';
     browseLink.style.display = 'none';
-  } else {
+  } else if (musicSource === 'youtube') {
     openLink.style.display = 'none';
     browseLink.style.display = 'inline';
+  } else {
+    openLink.style.display = 'none';
+    browseLink.style.display = 'none';
   }
 }
 
@@ -805,14 +1111,17 @@ function preloadYouTube(url) {
   area.classList.add('active');
 
   const opts = {
-    host: 'https://www.youtube-nocookie.com',
+    host: ytHost(),
     height: '100%', width: '100%',
     playerVars: {autoplay: 1, mute: 1, loop: 1, controls: 1, modestbranding: 1, rel: 0, playsinline: 1, origin: window.location.origin},
     events: {
       onReady: (e) => { try { e.target.mute(); e.target.playVideo(); } catch(_){} }
     }
   };
-  if (config.videoId) {
+  if (config.videoIds) {
+    opts.videoId = config.videoIds[0];
+    opts.playerVars.playlist = config.videoIds.join(',');
+  } else if (config.videoId) {
     opts.videoId = config.videoId;
     opts.playerVars.playlist = config.videoId;
   } else {
@@ -905,7 +1214,7 @@ function initYouTube(config, sourceUrl) {
   document.getElementById('yt-player').appendChild(holder);
 
   const opts = {
-    host: 'https://www.youtube-nocookie.com',
+    host: ytHost(),
     height: '100%', width: '100%',
     playerVars: {autoplay: 1, loop: 1, controls: 1, modestbranding: 1, rel: 0, playsinline: 1, origin: window.location.origin},
     events: {
@@ -955,7 +1264,10 @@ function initYouTube(config, sourceUrl) {
       }
     }
   };
-  if (config.videoId) {
+  if (config.videoIds) {
+    opts.videoId = config.videoIds[0];
+    opts.playerVars.playlist = config.videoIds.join(',');
+  } else if (config.videoId) {
     opts.videoId = config.videoId;
     opts.playerVars.playlist = config.videoId;
   } else {
@@ -1015,21 +1327,149 @@ const state = {
   wakeLock: null
 };
 
-const SAMPLE_MIXES = [
-  { id: 'K4DyBUG242c', label: 'Cartoon &mdash; On & On' },
-  { id: 'yJg-Y5byMMw', label: 'Warriyo &mdash; Mortals' },
-  { id: 'TW9d8vYrVFQ', label: 'Elektronomia &mdash; Sky High' },
-  { id: '3nQNiWdeH2Q', label: 'Janji &mdash; Heroes Tonight' }
+let musicSource = 'youtube'; // 'youtube' | 'spotify' | 'apple'
+
+// Verified NoCopyrightSounds tracks — NCS is advertiser-friendly by policy, so all clean/non-explicit.
+const NCS_CLEAN = [
+  'K4DyBUG242c', // Cartoon - On & On
+  'yJg-Y5byMMw', // Warriyo - Mortals
+  'TW9d8vYrVFQ', // Elektronomia - Sky High
+  '3nQNiWdeH2Q', // Janji - Heroes Tonight
+  'J2X5mJ3HDYE'  // DEAF KEV - Invincible
 ];
-let lastSampleIdx = -1;
-function pickRandomSample() {
-  if (SAMPLE_MIXES.length < 2) return SAMPLE_MIXES[0];
+// EDM/dance editorial playlists — electronic genre is overwhelmingly non-explicit (vs hip-hop lists).
+const SPOTIFY_SAMPLES = [
+  { id: '37i9dQZF1DX4dyzvuaRJ0n', label: 'mint' },
+  { id: '37i9dQZF1DXaXB8fQg7xif', label: 'Dance Party' },
+  { id: '37i9dQZF1DX0BcQWzuB7ZO', label: 'Dance Hits' },
+  { id: '37i9dQZF1DX8tZsk68tuDw', label: 'Dance Rising' },
+  { id: '37i9dQZF1DXa8NOEUWPn9W', label: 'Housewerk' }
+];
+const APPLE_SAMPLES = [
+  { url: 'https://music.apple.com/us/playlist/dancexl/pl.6bf4415b83ce4f3789614ac4c3675740', label: 'danceXL' }
+];
+
+const _lastIdx = { youtube: -1, spotify: -1, apple: -1 };
+function pickRandom(pool, key) {
+  if (pool.length < 2) { _lastIdx[key] = 0; return pool[0]; }
   let idx;
-  do {
-    idx = Math.floor(Math.random() * SAMPLE_MIXES.length);
-  } while (idx === lastSampleIdx);
-  lastSampleIdx = idx;
-  return SAMPLE_MIXES[idx];
+  do { idx = Math.floor(Math.random() * pool.length); } while (idx === _lastIdx[key]);
+  _lastIdx[key] = idx;
+  return pool[idx];
+}
+
+// ---------- Spotify ----------
+let spotifyApi = null;        // IFrameAPI object
+let spotifyController = null;
+let spotifyPendingUri = null;
+window.onSpotifyIframeApiReady = (IFrameAPI) => {
+  spotifyApi = IFrameAPI;
+  if (spotifyPendingUri) { createSpotify(spotifyPendingUri); spotifyPendingUri = null; }
+};
+function loadSpotifyAPI() {
+  if (document.getElementById('spotify-iframe-api')) return;
+  const s = document.createElement('script');
+  s.id = 'spotify-iframe-api';
+  s.src = 'https://open.spotify.com/embed/iframe-api/v1';
+  document.head.appendChild(s);
+}
+function parseSpotify(url) {
+  if (!url || !url.trim()) return null;
+  const u = url.trim();
+  let m = u.match(/spotify:(playlist|track|album|artist|show|episode):([A-Za-z0-9]+)/);
+  if (m) return { uri: `spotify:${m[1]}:${m[2]}` };
+  try {
+    const p = new URL(u.startsWith('http') ? u : 'https://' + u);
+    if (p.hostname.includes('spotify.com')) {
+      const parts = p.pathname.split('/').filter(Boolean);
+      const types = ['playlist','track','album','artist','show','episode'];
+      const ti = parts.findIndex(x => types.includes(x));
+      if (ti >= 0 && parts[ti+1]) {
+        return { uri: `spotify:${parts[ti]}:${parts[ti+1].split('?')[0]}` };
+      }
+    }
+  } catch(e){}
+  return null;
+}
+function createSpotify(uri) {
+  if (!spotifyApi) { spotifyPendingUri = uri; loadSpotifyAPI(); return; }
+  if (spotifyController) { try { spotifyController.destroy(); } catch(e){} spotifyController = null; }
+  const wrap = $('spotifyWrap');
+  wrap.innerHTML = '<div id="spotify-embed"></div>';
+  wrap.classList.remove('hidden');
+  spotifyApi.createController(
+    document.getElementById('spotify-embed'),
+    { uri, width: '100%', height: 352 },
+    (controller) => {
+      spotifyController = controller;
+      controller.addListener('ready', () => {
+        try { controller.play(); } catch(e){}
+        setMusicStatus('playing', 'Spotify loaded &mdash; press play in the player if it doesn\'t start.');
+      });
+      controller.addListener('playback_update', (e) => {
+        if (!e || !e.data) return;
+        if (e.data.isPaused) setMusicStatus('paused', 'Spotify paused');
+        else setMusicStatus('playing', 'Spotify playing');
+      });
+    }
+  );
+}
+function spotifyPlay() { try { spotifyController && spotifyController.resume(); } catch(e){ try { spotifyController.play(); } catch(_){} } }
+function spotifyPause() { try { spotifyController && spotifyController.pause(); } catch(e){} }
+
+// ---------- Apple Music ----------
+function parseApple(url) {
+  if (!url || !url.trim()) return null;
+  let u = url.trim();
+  if (!/music\.apple\.com/.test(u)) return null;
+  if (!u.startsWith('http')) u = 'https://' + u;
+  const embedUrl = u.replace(/:\/\/(www\.)?music\.apple\.com/, '://embed.music.apple.com');
+  return { embedUrl };
+}
+function createApple(embedUrl) {
+  const wrap = $('appleWrap');
+  wrap.innerHTML = '<iframe allow="autoplay *; encrypted-media *;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" height="450" src="' + embedUrl + '"></iframe>';
+  wrap.classList.remove('hidden');
+  setMusicStatus('paused', 'Apple Music loaded &mdash; press play in the player to start.');
+}
+
+// ---------- Music dispatch ----------
+function musicPause() {
+  if (musicSource === 'youtube') ytPause();
+  else if (musicSource === 'spotify') spotifyPause();
+  // apple: no programmatic control
+}
+function musicResume() {
+  if (musicSource === 'youtube') ytPlay();
+  else if (musicSource === 'spotify') spotifyPlay();
+}
+function startMusicForSession() {
+  const yt = $('ytWrap'), sp = $('spotifyWrap'), ap = $('appleWrap');
+  if (musicSource === 'youtube') {
+    sp.classList.add('hidden'); ap.classList.add('hidden');
+    const rawUrl = $('ytInput').value.trim();
+    const ytConfig = parseYouTube(rawUrl);
+    if (!ytConfig) { clearPreload(); yt.classList.add('hidden'); setMusicStatus('', 'No music &mdash; add a YouTube URL on the setup screen.'); return; }
+    if (preloadedPlayer && preloadedUrl === rawUrl) {
+      adoptPreloadedPlayer(rawUrl);
+    } else {
+      clearPreload();
+      initYouTube(ytConfig, rawUrl);
+    }
+  } else if (musicSource === 'spotify') {
+    clearPreload(); ytPause();
+    yt.classList.add('hidden'); ap.classList.add('hidden');
+    const s = parseSpotify($('spotifyInput').value);
+    if (!s) { sp.classList.add('hidden'); setMusicStatus('', 'No music &mdash; add a Spotify URL on the setup screen.'); return; }
+    setMusicStatus('', 'Loading Spotify&hellip;');
+    createSpotify(s.uri);
+  } else if (musicSource === 'apple') {
+    clearPreload(); ytPause();
+    yt.classList.add('hidden'); sp.classList.add('hidden');
+    const a = parseApple($('appleInput').value);
+    if (!a) { ap.classList.add('hidden'); setMusicStatus('', 'No music &mdash; add an Apple Music URL on the setup screen.'); return; }
+    createApple(a.embedUrl);
+  }
 }
 
 const $ = id => document.getElementById(id);
@@ -1164,14 +1604,7 @@ function start() {
   render();
   requestWakeLock();
 
-  const rawUrl = $('ytInput').value.trim();
-  const ytConfig = parseYouTube(rawUrl);
-  if (preloadedPlayer && preloadedUrl === rawUrl && ytConfig) {
-    adoptPreloadedPlayer(rawUrl);
-  } else {
-    clearPreload();
-    initYouTube(ytConfig, rawUrl);
-  }
+  startMusicForSession();
 
   if (state.intervalId) clearInterval(state.intervalId);
   state.intervalId = setInterval(tick, 1000);
@@ -1183,7 +1616,7 @@ function pause() {
   if (!state.running) return;
   state.paused = !state.paused;
   $('pauseBtn').textContent = state.paused ? 'Resume' : 'Pause';
-  if (state.paused) ytPause(); else ytPlay();
+  if (state.paused) musicPause(); else musicResume();
 }
 
 function skip() {
@@ -1195,7 +1628,7 @@ function stop() {
   if (!state.running && !$('timerScreen').classList.contains('active')) return;
   state.running = false;
   clearInterval(state.intervalId);
-  ytPause();
+  musicPause();
   releaseWakeLock();
   $('timerScreen').classList.remove('active');
   $('setup').classList.remove('hidden');
@@ -1206,7 +1639,7 @@ function finish() {
   state.running = false;
   clearInterval(state.intervalId);
   beepDone();
-  ytPause();
+  musicPause();
   releaseWakeLock();
   const totalMs = Date.now() - state.startedAt;
   const mm = Math.floor(totalMs / 60000);
@@ -1227,20 +1660,63 @@ $('againBtn').addEventListener('click', () => {
   $('doneScreen').classList.remove('active');
   $('setup').classList.remove('hidden');
 });
-$('sampleBtn').addEventListener('click', () => {
-  const pick = pickRandomSample();
-  const url = `https://www.youtube.com/watch?v=${pick.id}&list=RD${pick.id}`;
-  $('ytInput').value = url;
-  const btn = $('sampleBtn');
-  btn.innerHTML = pick.label;
+$('airplayBtn').addEventListener('click', () => {
+  $('airplayModal').classList.add('active');
+});
+$('airplayClose').addEventListener('click', () => {
+  $('airplayModal').classList.remove('active');
+});
+$('airplayModal').addEventListener('click', (e) => {
+  if (e.target === $('airplayModal')) $('airplayModal').classList.remove('active');
+});
+function flashSampleBtn(btn, label, resetText) {
+  btn.innerHTML = label;
   btn.classList.add('flash');
   clearTimeout(btn._resetTimer);
   btn._resetTimer = setTimeout(() => {
-    btn.textContent = 'Sample Mix';
+    btn.textContent = resetText;
     btn.classList.remove('flash');
   }, 1800);
+}
+
+$('sampleBtn').addEventListener('click', () => {
+  const ids = NCS_CLEAN.slice().sort(() => Math.random() - 0.5);
+  const url = `https://www.youtube.com/watch_videos?video_ids=${ids.join(',')}`;
+  $('ytInput').value = url;
+  flashSampleBtn($('sampleBtn'), 'NCS Clean Mix &#9834;', 'Sample Mix');
   ensureAudio();
   preloadYouTube(url);
+});
+
+$('spotifySampleBtn').addEventListener('click', () => {
+  const pick = pickRandom(SPOTIFY_SAMPLES, 'spotify');
+  $('spotifyInput').value = `https://open.spotify.com/playlist/${pick.id}`;
+  flashSampleBtn($('spotifySampleBtn'), pick.label, 'Sample');
+});
+
+$('appleSampleBtn').addEventListener('click', () => {
+  const pick = pickRandom(APPLE_SAMPLES, 'apple');
+  $('appleInput').value = pick.url;
+  flashSampleBtn($('appleSampleBtn'), pick.label, 'Sample');
+});
+
+$('ytPremium').addEventListener('change', (e) => {
+  ytUsePremium = e.target.checked;
+  // Rebuild the muted preview on the new host so the setting takes effect immediately.
+  const url = $('ytInput').value.trim();
+  clearPreload();
+  if (musicSource === 'youtube' && url) preloadYouTube(url);
+});
+
+// Source tab switching
+document.querySelectorAll('.source-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    musicSource = tab.dataset.source;
+    document.querySelectorAll('.source-tab').forEach(t => t.classList.toggle('active', t === tab));
+    document.querySelectorAll('.source-panel').forEach(p => p.classList.toggle('active', p.dataset.panel === musicSource));
+    clearPreload();
+    if (musicSource === 'spotify') loadSpotifyAPI();
+  });
 });
 
 let ytInputDebounce = null;
