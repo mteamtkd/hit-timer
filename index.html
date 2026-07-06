@@ -339,6 +339,17 @@ body {
 .source-tab[data-source="youtube"].active { background: #ff0033; }
 .source-tab[data-source="spotify"].active { background: #1db954; color: #00160a; }
 .source-tab[data-source="apple"].active { background: linear-gradient(90deg, #fa2f56, #fb5c74); }
+.source-note {
+  font-size: 12px;
+  color: var(--dim);
+  line-height: 1.5;
+  margin-bottom: 12px;
+  padding: 8px 12px;
+  background: rgba(34,211,161,0.08);
+  border: 1px solid rgba(34,211,161,0.25);
+  border-radius: 10px;
+}
+.source-note b { color: var(--work); }
 .source-panel { display: none; }
 .source-panel.active { display: block; }
 
@@ -843,6 +854,7 @@ body {
         <button type="button" class="source-tab" data-source="spotify">Spotify</button>
         <button type="button" class="source-tab" data-source="apple">Apple Music</button>
       </div>
+      <p class="source-note"><b>YouTube plays full songs free, no login.</b> Spotify &amp; Apple Music need a paid subscription (Premium / Apple Music) for full songs &mdash; without it you'll only get 30-second previews.</p>
 
       <!-- YouTube panel -->
       <div class="source-panel active" data-panel="youtube">
@@ -876,7 +888,7 @@ body {
           <a href="https://open.spotify.com/search/edm%20workout/playlists" target="_blank" rel="noopener">
             Browse Spotify EDM workout playlists &rarr;
           </a>
-          <span> Samples are EDM/dance (non-explicit-leaning). For a hard guarantee, turn off <b>Explicit content</b> in Spotify settings. Play/pause syncs with the timer. Full songs need Premium logged in &mdash; otherwise 30-sec previews.</span>
+          <span> <b>Only getting 30-sec previews?</b> You're not logged into Spotify Premium in this browser &mdash; sign in at spotify.com with a Premium account, then reload. No Premium? Use the <b>YouTube</b> tab for full, free music. Samples are EDM/dance (non-explicit-leaning); turn off <b>Explicit content</b> in Spotify settings for a hard guarantee. Play/pause syncs with the timer.</span>
         </div>
       </div>
 
